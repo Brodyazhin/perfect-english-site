@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect English — Умный тренажер английских слов для Windows</title>
+    <meta name="description" content="Учи английские слова легко и с удовольствием. Карточки, тесты, умные повторения и статистика прогресса. Скачай бесплатно для Windows.">
+    
+    <!-- Иконка для вкладки браузера -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+
+    <style>
+        /* --- БАЗОВЫЕ НАСТРОЙКИ --- */
+        :root {
+            --bg: #f0f2f8;
+            --card: #ffffff;
+            --text: #1a1d2e;
+            --text-light: #5a6080;
+            --accent: #4263eb;
+            --accent-hover: #3451c7;
+            --green: #0d9668;
+            --border: #dde1ec;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- ШАПКА --- */
+        header {
+            background-color: var(--card);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-header {
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn-header:hover { background-color: var(--accent-hover); }
+
+        /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
+        .hero {
+            padding: 90px 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg) 0%, #e2e6f5 100%);
+        }
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .btn-main {
+            background-color: var(--accent);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(66, 99, 235, 0.3);
+            transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-main:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(66, 99, 235, 0.4);
+        }
+        .btn-secondary {
+            background-color: var(--card);
+            color: var(--accent);
+            padding: 18px 40px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+            border: 2px solid var(--accent);
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #f0f4ff;
+            transform: translateY(-3px);
+        }
+
+        /* --- ПРЕИМУЩЕСТВА --- */
+        .features {
+            padding: 100px 0;
+            background-color: var(--card);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 60px;
+            font-weight: 800;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            padding: 40px 30px;
+            border-radius: 20px;
+            background-color: var(--bg);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border);
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+        }
+        .feature-icon {
+            font-size: 54px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .feature-card p { color: var(--text-light); font-size: 16px; }
+
+        /* --- СКРИНШОТ --- */
+        .screenshots {
+            padding: 100px 0;
+            text-align: center;
+            background-color: var(--bg);
+        }
+        .screenshot-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            border: 1px solid var(--border);
+            background-color: var(--card);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .screenshot-wrapper:hover {
+            transform: scale(1.02);
+        }
+        .screenshot-img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* --- ТАРИФЫ --- */
+        .pricing {
+            padding: 100px 0;
+            background-color: var(--card);
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+        .price-card {
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            background-color: var(--bg);
+            position: relative;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .price-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        .price-card.popular {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(66, 99, 235, 0.15);
+            background-color: var(--card);
+        }
+        .popular-badge {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--green);
+            color: white;
+            padding: 6px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .price-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--text);
+            font-weight: 700;
+        }
+        .price-card .price {
+            font-size: 52px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        .price-card .price span {
+            font-size: 16px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .price-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .price-features li {
+            font-size: 16px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .price-features li.active { color: var(--text); }
+        .price-features li.disabled { opacity: 0.5; }
+        .btn-price {
+            display: block;
+            background-color: var(--accent);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-price:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
+        .btn-price.free {
+            background-color: var(--border);
+            color: var(--text);
+        }
+        .btn-price.free:hover { background-color: #c8cdda; }
+
+        /* --- ПОДВАЛ --- */
+        footer {
+            padding: 50px 0;
+            text-align: center;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            background-color: var(--card);
+        }
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        footer a:hover { text-decoration: underline; }
+
+        /* --- АДАПТИВ ДЛЯ ТЕЛЕФОНОВ --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 18px; }
+            .hero-buttons { flex-direction: column; gap: 15px; }
+            .btn-main, .btn-secondary { width: 100%; justify-content: center; padding: 16px 20px; font-size: 18px; }
+            .section-title { font-size: 32px; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">🎓 Perfect English</a>
+            <!-- ЗАМЕНИ ССЫЛКУ НА СВОЙ ФАЙЛ .EXE -->
+            <a href="https://github.com/ТвойАккаунт/perfect-english/releases/download/v1.0/PerfectEnglish.exe" class="btn-header">Скачать бесплатно</a>
+        </div>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <div class="container">
+            <h1>Учи английские слова <br>легко и с удовольствием</h1>
+            <p>Perfect English — это умный тренажер для Windows. Карточки, тесты, озвучка носителем и статистика, которая мотивирует.</p>
+            <div class="hero-buttons">
+                <!-- ЗАМЕНИ ССЫЛКУ НА СВОЙ ФАЙЛ .EXE -->
+                <a href="https://github.com/ТвойАккаунт/perfect-english/releases/download/v1.0/PerfectEnglish.exe" class="btn-main">
+                    <span>⬇️</span> Скачать для Windows
+                </a>
+                <a href="#pricing" class="btn-secondary">Узнать о тарифах</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Почему выбирают нас</h2>
+            <div class="grid-3">
+                <div class="feature-card">
+                    <span class="feature-icon">🧠</span>
+                    <h3>Умные повторения</h3>
+                    <p>Программа подстраивается под тебя и показывает слова именно тогда, когда ты готов их забыть.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔊</span>
+                    <h3>Живая озвучка</h3>
+                    <p>Слушай правильное произношение слов и фраз от носителей языка.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>Наглядная статистика</h3>
+                    <p>Следи за своим прогрессом, серией дней и точностью ответов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Скриншот -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="section-title">Выглядит красиво и удобно</h2>
+            <div class="screenshot-wrapper">
+                <!-- ЗАМЕНИ 'screenshot.png' НА ИМЯ ТВОЕГО СКРИНШОТА -->
+                <img src="screenshot.png" alt="Скриншот приложения Perfect English" class="screenshot-img" style="background: #f0f2f8; min-height: 400px; object-fit: cover;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Тарифы -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Выбери свой план</h2>
+            <div class="pricing-grid">
+                <!-- Бесплатный -->
+                <div class="price-card">
+                    <h3>Бесплатный</h3>
+                    <div class="price">0 ₽<span>/мес</span></div>
+                    <ul class="price-features">
+                        <li class="active">✅ 30 слов в день</li>
+                        <li class="active">✅ Базовый раздел</li>
+                        <li class="active">✅ До 10 слов в избранном</li>
+                        <li class="disabled">❌ Тесты и статистика</li>
+                    </ul>
+                    <!-- ЗАМЕНИ ССЫЛКУ НА СВОЙ ФАЙЛ .EXE -->
+                    <a href="https://github.com/ТвойАккаунт/perfect-english/releases/download/v1.0/PerfectEnglish.exe" class="btn-price free">Скачать</a>
+                </div>
+                
+                <!-- Плюс (Популярный) -->
+                <div class="price-card popular">
+                    <div class="popular-badge">Хит продаж</div>
+                    <h3>Плюс</h3>
+                    <div class="price">199 ₽<span>/мес</span></div>
+                    <ul class="price-features">
+                        <li class="active">✅ 500 слов в день</li>
+                        <li class="active">✅ Все разделы</li>
+                        <li class="active">✅ Тесты и умные повторения</li>
+                        <li class="active">✅ Полная статистика</li>
+                        <li class="active">✅ Избранное без лимита</li>
+                    </ul>
+                    <!-- Ссылка ведет на скачивание, т.к. оплата внутри приложения -->
+                    <a href="#" class="btn-price" onclick="alert('Оплата происходит внутри приложения! Скачайте его и оформите подписку в разделе «Управление подпиской».')">Оформить в приложении</a>
+                </div>
+                
+                <!-- Премиум -->
+                <div class="price-card">
+                    <h3>Премиум</h3>
+                    <div class="price">499 ₽<span>/мес</span></div>
+                    <ul class="price-features">
+                        <li class="active">✅ Всё из Плюса</li>
+                        <li class="active">✅ Безлимит слов</li>
+                        <li class="active">✅ Экспорт/импорт прогресса</li>
+                        <li class="active">✅ Приоритетная поддержка</li>
+                    </ul>
+                    <a href="#" class="btn-price" onclick="alert('Оплата происходит внутри приложения! Скачайте его и оформите подписку в разделе «Управление подпиской».')">Оформить в приложении</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Perfect English. Все права защищены.</p>
+            <p style="margin-top: 15px;">Есть вопросы? Пишите: <a href="mailto:support@perfectenglish.ru">support@perfectenglish.ru</a></p>
+            <p style="margin-top: 20px; font-size: 14px; opacity: 0.7;">
+                <a href="privacy.html">Политика конфиденциальности</a> • 
+                <a href="terms.html">Пользовательское соглашение</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
